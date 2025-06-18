@@ -4,7 +4,7 @@ import (
 	"ikit-api/internal/domain/constant"
 	"net/http"
 
-	"github.com/labstack/echo/v5"
+	"github.com/pocketbase/pocketbase/core"
 )
 
 type Response struct {
@@ -13,7 +13,7 @@ type Response struct {
 	Data interface{} `json:"data"`
 }
 
-func Succ(e echo.Context, data interface{}) error {
+func Succ(e *core.RequestEvent, data interface{}) error {
 	rs := &Response{
 		Code: 0,
 		Msg:  "success",
@@ -22,7 +22,7 @@ func Succ(e echo.Context, data interface{}) error {
 	return e.JSON(http.StatusOK, rs)
 }
 
-func Err(e echo.Context, err error) error {
+func Err(e *core.RequestEvent, err error) error {
 
 	xerr, ok := err.(*constant.XError)
 	code := 100
@@ -38,7 +38,7 @@ func Err(e echo.Context, err error) error {
 	return e.JSON(http.StatusOK, rs)
 }
 
-func WecomVerifyUrl(e echo.Context, msg string) error {
+func WecomVerifyUrl(e *core.RequestEvent, msg string) error {
 
 	return e.String(http.StatusOK, msg)
 }

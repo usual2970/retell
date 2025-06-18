@@ -4,13 +4,13 @@ import (
 	"encoding/json"
 
 	"github.com/pocketbase/dbx"
+	"github.com/pocketbase/pocketbase/core"
 	"github.com/pocketbase/pocketbase/daos"
 	m "github.com/pocketbase/pocketbase/migrations"
-	"github.com/pocketbase/pocketbase/models"
 )
 
 func init() {
-	m.Register(func(db dbx.Builder) error {
+	m.Register(func(app core.App) error {
 		jsonData := `[
 			{
 				"id": "_pb_users_auth_",
@@ -209,12 +209,12 @@ func init() {
 			}
 		]`
 
-		collections := []*models.Collection{}
+		collections := []*core.Collection{}
 		if err := json.Unmarshal([]byte(jsonData), &collections); err != nil {
 			return err
 		}
 
-		return daos.New(db).ImportCollections(collections, true, nil)
+		app.ImportCollectionsByMarshaledJSON()
 	}, func(db dbx.Builder) error {
 		return nil
 	})

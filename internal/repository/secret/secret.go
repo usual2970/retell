@@ -20,7 +20,7 @@ func NewRepository() domain.ISecretRepository {
 }
 
 func (r *repository) Get(ctx context.Context, filter string) (*domain.Secret, error) {
-	record, err := app.Get().Dao().FindFirstRecordByFilter("secrets",
+	record, err := app.Get().FindFirstRecordByFilter("secrets",
 		filter,
 	)
 	if err != nil {
@@ -32,8 +32,8 @@ func (r *repository) Get(ctx context.Context, filter string) (*domain.Secret, er
 	record.UnmarshalJSONField("ext", &ext)
 	meta := domain.Meta{
 		Id:      record.Id,
-		Created: record.GetTime("created"),
-		Updated: record.GetTime("updated"),
+		Created: record.GetDateTime("created").Time(),
+		Updated: record.GetDateTime("updated").Time(),
 	}
 	rs := &domain.Secret{
 

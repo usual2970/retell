@@ -27,20 +27,16 @@ func main() {
 		Automigrate: isGoRun,
 	})
 
-	app.OnRecordAfterCreateRequest("essay").Add(func(e *core.RecordCreateEvent) error {
-
+	app.OnRecordAfterCreateSuccess("essay").BindFunc(func(e *core.RecordEvent) error {
 		return routes.OnessayCreate(e)
 	})
 
-	app.OnRecordAfterUpdateRequest("essay").Add(func(e *core.RecordUpdateEvent) error {
-
+	app.OnRecordAfterUpdateSuccess("essay").BindFunc(func(e *core.RecordEvent) error {
 		return routes.OnessayUpdate(e)
 	})
 
-	app.OnBeforeServe().Add(func(e *core.ServeEvent) error {
-
+	app.OnServe().BindFunc(func(e *core.ServeEvent) error {
 		routes.Route(e.Router)
-
 		if err := routes.Register(); err != nil {
 			return err
 		}
@@ -50,4 +46,5 @@ func main() {
 	if err := app.Start(); err != nil {
 		log.Fatal(err)
 	}
+
 }
