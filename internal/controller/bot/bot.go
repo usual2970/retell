@@ -1,8 +1,8 @@
 package bot
 
 import (
-	"ikit-api/internal/domain"
-	"ikit-api/internal/util/resp"
+	"github.com/usual2970/retell/internal/domain"
+	"github.com/usual2970/retell/internal/util/resp"
 
 	"github.com/pocketbase/pocketbase/core"
 	"github.com/pocketbase/pocketbase/tools/router"

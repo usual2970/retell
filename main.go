@@ -1,17 +1,18 @@
 package main
 
 import (
-	"ikit-api/internal/routes"
-	"ikit-api/internal/util/app"
 	"log"
 	"os"
 	"strings"
+
+	"github.com/usual2970/retell/internal/routes"
+	"github.com/usual2970/retell/internal/util/app"
 
 	"github.com/pocketbase/pocketbase/core"
 
 	"github.com/pocketbase/pocketbase/plugins/migratecmd"
 
-	_ "ikit-api/migrations"
+	_ "github.com/usual2970/retell/migrations"
 
 	_ "github.com/pocketbase/pocketbase/migrations"
 )
@@ -40,7 +41,7 @@ func main() {
 		if err := routes.Register(); err != nil {
 			return err
 		}
-		return nil
+		return e.Next()
 	})
 
 	if err := app.Start(); err != nil {

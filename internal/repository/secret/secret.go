@@ -2,9 +2,10 @@ package secret
 
 import (
 	"context"
-	"ikit-api/internal/domain"
-	"ikit-api/internal/util/app"
 	"sync"
+
+	"github.com/usual2970/retell/internal/domain"
+	"github.com/usual2970/retell/internal/util/app"
 )
 
 var once sync.Once

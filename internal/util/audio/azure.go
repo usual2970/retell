@@ -3,12 +3,13 @@ package audio
 import (
 	"context"
 	"fmt"
-	xhttp "ikit-api/internal/util/http"
 	"net/http"
 	"os"
 	"strings"
 	"sync"
 	"time"
+
+	xhttp "github.com/usual2970/retell/internal/util/http"
 
 	"github.com/hashicorp/golang-lru/v2/expirable"
 )

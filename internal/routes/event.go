@@ -1,7 +1,7 @@
 package routes
 
 import (
-	botUC "ikit-api/internal/usecase/bot"
+	botUC "github.com/usual2970/retell/internal/usecase/bot"
 
 	"github.com/pocketbase/pocketbase/core"
 )

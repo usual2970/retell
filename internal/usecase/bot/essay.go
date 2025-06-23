@@ -2,12 +2,13 @@ package bot
 
 import (
 	"context"
-	"ikit-api/internal/domain"
-	"ikit-api/internal/util/app"
-	"ikit-api/internal/util/audio"
-	"ikit-api/internal/util/telegraph"
-	"ikit-api/internal/util/zhipu"
 	"os"
+
+	"github.com/usual2970/retell/internal/domain"
+	"github.com/usual2970/retell/internal/util/app"
+	"github.com/usual2970/retell/internal/util/audio"
+	"github.com/usual2970/retell/internal/util/telegraph"
+	"github.com/usual2970/retell/internal/util/zhipu"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 

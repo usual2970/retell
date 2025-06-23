@@ -1,7 +1,7 @@
 package bot
 
 import (
-	"ikit-api/internal/domain"
+	"github.com/usual2970/retell/internal/domain"
 
 	"github.com/pocketbase/pocketbase/core"
 )
