@@ -1,4 +1,4 @@
-# ikit-tg
+# Retell
 
 基于 telegram bot 的英语学习机器人。
 
