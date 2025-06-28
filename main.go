@@ -28,11 +28,11 @@ func main() {
 		Automigrate: isGoRun,
 	})
 
-	app.OnRecordAfterCreateSuccess("essay").BindFunc(func(e *core.RecordEvent) error {
+	app.OnRecordCreateRequest("essay").BindFunc(func(e *core.RecordRequestEvent) error {
 		return routes.OnessayCreate(e)
 	})
 
-	app.OnRecordAfterUpdateSuccess("essay").BindFunc(func(e *core.RecordEvent) error {
+	app.OnRecordUpdateRequest("essay").BindFunc(func(e *core.RecordRequestEvent) error {
 		return routes.OnessayUpdate(e)
 	})
 

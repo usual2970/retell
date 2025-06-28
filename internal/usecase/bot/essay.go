@@ -192,7 +192,7 @@ func (e *essayUsecase) Add(ctx context.Context, req *domain.AddessayReq) error {
 
 func (e *essayUsecase) List(ctx context.Context, req *domain.ListessayReq) ([]domain.Essay, error) {
 
-	records, err := app.Get().FindRecordsByFilter("essay", req.Filter, "-created", req.Limit, req.Offset)
+	records, err := app.Get().FindRecordsByFilter("essay", req.Filter, "-id", req.Limit, req.Offset)
 	if err != nil {
 		return nil, err
 	}

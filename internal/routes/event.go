@@ -6,16 +6,22 @@ import (
 	"github.com/pocketbase/pocketbase/core"
 )
 
-func OnessayUpdate(e *core.RecordEvent) error {
+func OnessayUpdate(e *core.RecordRequestEvent) error {
+	if err := e.Next(); err != nil {
+		return err
+	}
 
 	uc := botUC.NewessayUsecase()
 
-	return uc.CreateTelegraph(e.Context, e.Record.Id)
+	return uc.CreateTelegraph(e.Request.Context(), e.Record.Id)
 }
 
-func OnessayCreate(e *core.RecordEvent) error {
+func OnessayCreate(e *core.RecordRequestEvent) error {
+	if err := e.Next(); err != nil {
+		return err
+	}
 
 	uc := botUC.NewessayUsecase()
 
-	return uc.CreateTelegraph(e.Context, e.Record.Id)
+	return uc.CreateTelegraph(e.Request.Context(), e.Record.Id)
 }
