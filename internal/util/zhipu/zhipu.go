@@ -5,12 +5,13 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"ikit-api/internal/util/app"
-	xhttp "ikit-api/internal/util/http"
 	"net/http"
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/usual2970/retell/internal/util/app"
+	xhttp "github.com/usual2970/retell/internal/util/http"
 
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/google/uuid"

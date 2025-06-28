@@ -2,10 +2,11 @@ package bot
 
 import (
 	"context"
-	"ikit-api/internal/domain"
-	"ikit-api/internal/util/app"
 	"os"
 	"sync"
+
+	"github.com/usual2970/retell/internal/domain"
+	"github.com/usual2970/retell/internal/util/app"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )

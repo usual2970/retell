@@ -1,17 +1,18 @@
 package main
 
 import (
-	"ikit-api/internal/routes"
-	"ikit-api/internal/util/app"
 	"log"
 	"os"
 	"strings"
+
+	"github.com/usual2970/retell/internal/routes"
+	"github.com/usual2970/retell/internal/util/app"
 
 	"github.com/pocketbase/pocketbase/core"
 
 	"github.com/pocketbase/pocketbase/plugins/migratecmd"
 
-	_ "ikit-api/migrations"
+	_ "github.com/usual2970/retell/migrations"
 
 	_ "github.com/pocketbase/pocketbase/migrations"
 )
@@ -27,27 +28,24 @@ func main() {
 		Automigrate: isGoRun,
 	})
 
-	app.OnRecordAfterCreateRequest("essay").Add(func(e *core.RecordCreateEvent) error {
-
+	app.OnRecordCreateRequest("essay").BindFunc(func(e *core.RecordRequestEvent) error {
 		return routes.OnessayCreate(e)
 	})
 
-	app.OnRecordAfterUpdateRequest("essay").Add(func(e *core.RecordUpdateEvent) error {
-
+	app.OnRecordUpdateRequest("essay").BindFunc(func(e *core.RecordRequestEvent) error {
 		return routes.OnessayUpdate(e)
 	})
 
-	app.OnBeforeServe().Add(func(e *core.ServeEvent) error {
-
+	app.OnServe().BindFunc(func(e *core.ServeEvent) error {
 		routes.Route(e.Router)
-
 		if err := routes.Register(); err != nil {
 			return err
 		}
-		return nil
+		return e.Next()
 	})
 
 	if err := app.Start(); err != nil {
 		log.Fatal(err)
 	}
+
 }

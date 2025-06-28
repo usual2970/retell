@@ -3,9 +3,10 @@ package zhipu
 import (
 	"bytes"
 	"fmt"
-	xhttp "ikit-api/internal/util/http"
 	"net/http"
 	"time"
+
+	xhttp "github.com/usual2970/retell/internal/util/http"
 
 	jsoniter "github.com/json-iterator/go"
 )

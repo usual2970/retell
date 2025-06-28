@@ -2,8 +2,9 @@ package routes
 
 import (
 	"context"
-	"ikit-api/internal/domain"
-	botUC "ikit-api/internal/usecase/bot"
+
+	"github.com/usual2970/retell/internal/domain"
+	botUC "github.com/usual2970/retell/internal/usecase/bot"
 )
 
 var botUc domain.IBotUsecase

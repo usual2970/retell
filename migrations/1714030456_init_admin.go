@@ -1,31 +1,32 @@
+// migrations/1687801090_initial_superuser.go
 package migrations
 
 import (
-	"github.com/pocketbase/dbx"
-	"github.com/pocketbase/pocketbase/daos"
+	"github.com/pocketbase/pocketbase/core"
 	m "github.com/pocketbase/pocketbase/migrations"
-	"github.com/pocketbase/pocketbase/models"
 )
 
 func init() {
-	m.Register(func(db dbx.Builder) error {
-		// add up queries...
-		dao := daos.New(db)
-
-		admin := &models.Admin{}
-		admin.Email = "admin@ikittg.com"
-		admin.SetPassword("1234567890")
-		return dao.SaveAdmin(admin)
-	}, func(db dbx.Builder) error {
-		// add down queries...
-		dao := daos.New(db)
-
-		admin, _ := dao.FindAdminByEmail("admin@ikittg.com")
-		if admin != nil {
-			return dao.DeleteAdmin(admin)
+	m.Register(func(app core.App) error {
+		superusers, err := app.FindCollectionByNameOrId(core.CollectionNameSuperusers)
+		if err != nil {
+			return err
 		}
 
-		// already deleted
-		return nil
+		record := core.NewRecord(superusers)
+
+		// note: the values can be eventually loaded via os.Getenv(key)
+		// or from a special local config file
+		record.Set("email", "admin@ikittg.com")
+		record.Set("password", "1234567890")
+
+		return app.Save(record)
+	}, func(app core.App) error { // optional revert operation
+		record, _ := app.FindAuthRecordByEmail(core.CollectionNameSuperusers, "admin@ikittg.com")
+		if record == nil {
+			return nil // probably already deleted
+		}
+
+		return app.Delete(record)
 	})
 }

@@ -4,12 +4,13 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ikit-api/internal/domain"
-	"ikit-api/internal/util/app"
-	xhttp "ikit-api/internal/util/http"
 	"net/http"
 	"regexp"
 	"sync"
+
+	"github.com/usual2970/retell/internal/domain"
+	"github.com/usual2970/retell/internal/util/app"
+	xhttp "github.com/usual2970/retell/internal/util/http"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
