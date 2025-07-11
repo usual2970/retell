@@ -16,5 +16,11 @@
   "packageManager": "pnpm@9.0.0",
   "engines": {
     "node": ">=18"
+  },
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.1.11",
+    "@types/react-router-dom": "^5.3.3",
+    "lucide-react": "^0.525.0",
+    "react-router-dom": "^7.6.3"
   }
 }
