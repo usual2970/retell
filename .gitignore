@@ -1,11 +1,38 @@
-vendor
-pb_data
-__debug_bin*
-.vscode
-./ikit
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-retell
+# Dependencies
+node_modules
+.pnp
+.pnp.js
 
-test_data
-weaviate_data
+# Local env files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Testing
+coverage
+
+# Turbo
+.turbo
+
+# Vercel
+.vercel
+
+# Build Outputs
+.next/
+out/
+build
+dist
+
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Misc
 .DS_Store
+*.pem

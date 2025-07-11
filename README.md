@@ -1,152 +1,135 @@
-# Retell 📚🎧
+# Turborepo starter
 
-> 基于 Telegram Bot 的智能英语学习助手，让英语学习更高效、更有趣！
+This Turborepo starter is maintained by the Turborepo core team.
 
-[![Go Version](https://img.shields.io/badge/Go-1.19+-blue.svg)](https://golang.org)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Telegram](https://img.shields.io/badge/Telegram-Bot-blue.svg)](https://telegram.org/apps)
+## Using this example
 
-## ✨ 项目简介
+Run the following command:
 
-传统的英语学习往往局限于机械式的背单词，这种方法存在诸多弊端：
+```sh
+npx create-turbo@latest
+```
 
-❌ **传统背单词的问题**
-- 单词零散，缺乏语境联系，遗忘率高
-- 只锻炼机械记忆，听说读写能力无法提升
-- 学习效率低下，无法形成语言思维
+## What's inside?
 
-✅ **我们的解决方案：短文背诵**
-- 📖 **深度理解**：掌握单词读音、含义和用法
-- 🏗️ **语法强化**：分析句子结构，理解语法规则
-- ✍️ **综合提升**：通过默写练习，同时提高语法理解和写作能力
+This Turborepo includes the following packages/apps:
 
-Retell 正是为了解决听力训练缺失这一痛点而诞生的项目，通过 AI 语音合成技术，为您的英语学习文章配上标准发音，让学习更加立体化。
+### Apps and Packages
 
-## 🚀 核心功能
+- `docs`: a [Next.js](https://nextjs.org/) app
+- `web`: another [Next.js](https://nextjs.org/) app
+- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
+- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
+- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
 
-### 📝 智能文章管理
-- **文章导入**：支持添加英语学习文章
-- **AI 语音合成**：使用 Azure 语音服务，将文章转换为高质量音频
-- **智能摘要**：集成智谱 AI，自动生成文章缩略图和摘要
+Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
 
-### 📚 学习历史追踪
-- **历史记录**：完整的学习文章历史管理
-- **多媒体体验**：支持文字阅读和音频播放
-- **便捷管理**：随时删除不需要的文章，保持学习库整洁
+### Utilities
 
-### 🤖 Telegram 集成
-- **即时互动**：通过 Telegram Bot 随时随地学习
-- **用户友好**：简洁的界面设计，操作简单直观
+This Turborepo has some additional tools already setup for you:
 
-## 📦 快速开始
+- [TypeScript](https://www.typescriptlang.org/) for static type checking
+- [ESLint](https://eslint.org/) for code linting
+- [Prettier](https://prettier.io) for code formatting
 
-### 环境要求
+### Build
 
-- Go 1.19+
-- Telegram Bot Token
-- Azure 语音服务 API Key
-- 智谱 AI API Key
+To build all apps and packages, run the following command:
 
-### 安装步骤
+```
+cd my-turborepo
 
-1. **克隆项目**
+# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
+turbo build
 
-   ```bash
-   git clone https://github.com/usual2970/retell.git
-   cd retell
-   ```
+# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
+npx turbo build
+yarn dlx turbo build
+pnpm exec turbo build
+```
 
-2. **编译项目**
+You can build a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
 
-   ```bash
-   go build -o retell
-   ```
+```
+# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
+turbo build --filter=docs
 
-3. **配置环境变量**
+# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
+npx turbo build --filter=docs
+yarn exec turbo build --filter=docs
+pnpm exec turbo build --filter=docs
+```
 
-   ```bash
-   # Telegram 机器人 Token
-   export TG_TOKEN="your_telegram_bot_token"
-   
-   # 智谱 AI API Key（用于生成文章缩略图）
-   export ZHIPU_API_KEY="your_zhipu_api_key"
-   
-   # Azure 语音服务 API Key（用于文本转语音）
-   export AZURE_SPEECH_KEY="your_azure_speech_key"
-   
-   # Azure 语音服务区域（可选，默认为 eastus）
-   export AZURE_SPEECH_REGION="eastus"
-   ```
+### Develop
 
-4. **启动服务**
+To develop all apps and packages, run the following command:
 
-   ```bash
-   ./retell serve
-   ```
+```
+cd my-turborepo
 
-### 配置说明
+# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
+turbo dev
 
-| 环境变量 | 说明 | 是否必需 |
-|---------|------|---------|
-| `TG_TOKEN` | Telegram Bot Token | ✅ 必需 |
-| `ZHIPU_API_KEY` | 智谱 AI API Key | ✅ 必需 |
-| `AZURE_SPEECH_KEY` | Azure 语音服务密钥 | ✅ 必需 |
-| `AZURE_SPEECH_REGION` | Azure 服务区域 | ❌ 可选（默认：eastus） |
+# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
+npx turbo dev
+yarn exec turbo dev
+pnpm exec turbo dev
+```
 
-## 📱 使用演示
+You can develop a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
 
-### 主菜单界面
+```
+# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
+turbo dev --filter=web
 
-![主菜单](assets/image-1.png)
+# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
+npx turbo dev --filter=web
+yarn exec turbo dev --filter=web
+pnpm exec turbo dev --filter=web
+```
 
-*简洁直观的操作界面*
+### Remote Caching
 
-### 文章列表管理
+> [!TIP]
+> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
 
-![文章列表](assets/image-2.png)
+Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
 
-*历史文章一目了然，支持快速访问*
+By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
 
-### 文章详情页面
+```
+cd my-turborepo
 
-![文章详情](assets/image-3.png)
+# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
+turbo login
 
-*支持文字阅读和音频播放的完整学习体验*
+# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
+npx turbo login
+yarn exec turbo login
+pnpm exec turbo login
+```
 
-## 🏗️ 技术架构
+This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
 
-- **后端框架**：Go + Clean Architecture
-- **数据库**：PocketBase（嵌入式数据库）
-- **AI 服务**：
-  - Azure 语音服务（文本转语音）
-  - 智谱 AI（内容摘要生成）
-- **即时通讯**：Telegram Bot API
-- **部署**：支持 Railway、Docker 等平台
+Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
 
-## 🤝 贡献指南
+```
+# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
+turbo link
 
-我们欢迎任何形式的贡献！
+# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
+npx turbo link
+yarn exec turbo link
+pnpm exec turbo link
+```
 
-1. Fork 本项目
-2. 创建您的功能分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交您的更改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 开启一个 Pull Request
+## Useful Links
 
-## 📄 许可证
+Learn more about the power of Turborepo:
 
-本项目遵循 [MIT License](LICENSE) 开源协议。您可以自由地使用、复制、修改和分发本软件。
-
-## 🔗 相关链接
-
-- [Telegram Bot API 文档](https://core.telegram.org/bots/api)
-- [Azure 语音服务](https://azure.microsoft.com/zh-cn/services/cognitive-services/speech-services/)
-- [智谱 AI](https://open.bigmodel.cn/)
-
----
-
-<div align="center">
-  <h3>🌟 开始您的高效英语学习之旅！</h3>
-  <p>如有任何问题或建议，欢迎提交 Issue 或 Pull Request</p>
-  <p>让我们一起让 Retell 变得更加出色！🚀</p>
-</div>
+- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
+- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
+- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
+- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
+- [Configuration Options](https://turborepo.com/docs/reference/configuration)
+- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
