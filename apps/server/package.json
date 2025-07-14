@@ -2,14 +2,16 @@
   "name": "server",
   "version": "0.0.0",
   "private": true,
-  "tppe": "module",
+  "type": "commonjs",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only --require tsconfig-paths/register src/index.ts",
-    "build": "echo 'Add build script here'",
+    "build": "rm -rf dist && prisma generate && tsc && tsc-alias",
+    "start": "node dist/index.js",
     "test": "echo 'Add test script here'",
     "lint": "echo 'Add lint script here'"
   },
   "dependencies": {
+    "@prisma/client": "6.11.1",
     "express": "^5.1.0",
     "zod": "^3.23.8"
   },
@@ -17,7 +19,9 @@
     "@repo/typescript-config": "workspace:*",
     "@types/express": "^5.0.3",
     "@types/node": "^24.0.13",
+    "prisma": "6.11.1",
     "ts-node-dev": "^2.0.0",
+    "tsc-alias": "^1.8.10",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.8.3"
   }

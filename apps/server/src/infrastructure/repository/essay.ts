@@ -1,8 +1,8 @@
 import { Essay } from "../../domain/essay";
 import { EssayRepository } from "../../essay/service";
 import { getPrismaClient } from "./base";
-import { Prisma } from "../../generated/prisma";
-import type { Essay as PrismaEssay } from "../../generated/prisma";
+import { Prisma } from "@prisma/client";
+import type { Essay as PrismaEssay } from "@prisma/client";
 
 export class Repository implements EssayRepository {
   async create(essay: Essay): Promise<Essay> {

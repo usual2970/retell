@@ -7,12 +7,15 @@
     "paths": {
       "@/*": ["./src/*"]
     },
+    "outDir": "dist",
    
   },
   "include": [
-    "**/*.ts",
+    "src/**/*.ts",
+    "src/generated/**/*"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "dist"
   ]
 }
