@@ -10,9 +10,8 @@
     "lint": "echo 'Add lint script here'"
   },
   "dependencies": {
-    "@prisma/client": "^6.11.1",
     "express": "^5.1.0",
-    "prisma": "^6.11.1"
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
