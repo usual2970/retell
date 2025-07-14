@@ -1,5 +1,5 @@
+import { fail, succ } from "@/pkg/resp";
 import { Router, Request, Response } from "express";
-import { succ, fail } from "../../../pkg/resp";
 
 export interface ITestService {
   performTest(): Promise<string>;

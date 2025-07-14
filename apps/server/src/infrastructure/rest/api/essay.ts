@@ -1,6 +1,6 @@
-import { EssayCreateReq, EssayInfoResp } from "../../../domain/essay";
+import { EssayCreateReq, EssayInfoResp } from "@/domain/essay";
 import { Request, Response, Router } from "express";
-import { fail, succ } from "../../../pkg/resp";
+import { fail, succ } from "@/pkg/resp";
 import z from "zod";
 
 export interface EssayService {

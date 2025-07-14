@@ -4,7 +4,7 @@
   "private": true,
   "tppe": "module",
   "scripts": {
-    "dev": "ts-node-dev --respawn src/index.ts",
+    "dev": "ts-node-dev --respawn --transpile-only --require tsconfig-paths/register src/index.ts",
     "build": "echo 'Add build script here'",
     "test": "echo 'Add test script here'",
     "lint": "echo 'Add lint script here'"
@@ -18,6 +18,7 @@
     "@types/express": "^5.0.3",
     "@types/node": "^24.0.13",
     "ts-node-dev": "^2.0.0",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.8.3"
   }
 }
