@@ -8,29 +8,13 @@ export class Repository implements EssayRepository {
   async create(essay: Essay): Promise<Essay> {
     const prisma = getPrismaClient();
 
-    // 将领域模型转换为 Prisma 数据模型
-    // 注意：不包含 id，让数据库自动生成
-    const prismaData: Prisma.EssayCreateInput = {
-      content: essay.content,
-      essayType: essay.essayType,
-      file: essay.file,
-      fileId: essay.fileId,
-      sentences:
-        essay.sentences && essay.sentences.length > 0
-          ? (essay.sentences as Prisma.InputJsonValue)
-          : undefined,
-      taskId: essay.taskId,
-      telegraph: essay.telegraph,
-      thumb: essay.thumb,
-      title: essay.title,
-      videoLink: essay.videoLink,
-    };
+    // 将领域模型转换为 Prisma 创建数据
+    const createData = this.mapEssayToPrismaCreate(essay);
 
     const createdEssay = await prisma.essay.create({
-      data: prismaData,
+      data: createData,
     });
 
-    // 将 Prisma 模型转换回领域模型
     return this.mapPrismaToEssay(createdEssay);
   }
 
@@ -64,24 +48,8 @@ export class Repository implements EssayRepository {
   async update(id: number, data: Partial<Essay>): Promise<Essay | null> {
     const prisma = getPrismaClient();
 
-    // 构建更新数据，只包含已提供的字段
-    const updateData: Prisma.EssayUpdateInput = {};
-
-    if (data.content !== undefined) updateData.content = data.content;
-    if (data.essayType !== undefined) updateData.essayType = data.essayType;
-    if (data.file !== undefined) updateData.file = data.file;
-    if (data.fileId !== undefined) updateData.fileId = data.fileId;
-    if (data.sentences !== undefined) {
-      updateData.sentences =
-        data.sentences && data.sentences.length > 0
-          ? (data.sentences as Prisma.InputJsonValue)
-          : undefined;
-    }
-    if (data.taskId !== undefined) updateData.taskId = data.taskId;
-    if (data.telegraph !== undefined) updateData.telegraph = data.telegraph;
-    if (data.thumb !== undefined) updateData.thumb = data.thumb;
-    if (data.title !== undefined) updateData.title = data.title;
-    if (data.videoLink !== undefined) updateData.videoLink = data.videoLink;
+    // 将领域模型转换为 Prisma 更新数据
+    const updateData = this.mapEssayToPrismaUpdate(data);
 
     try {
       const updatedEssay = await prisma.essay.update({
@@ -91,7 +59,6 @@ export class Repository implements EssayRepository {
 
       return this.mapPrismaToEssay(updatedEssay);
     } catch (error) {
-      // 如果记录不存在，Prisma 会抛出错误
       return null;
     }
   }
@@ -134,6 +101,43 @@ export class Repository implements EssayRepository {
       updatedAt: prismaEssay.updatedAt,
       deletedAt: prismaEssay.deletedAt,
     };
+  }
+
+  private mapEssayToPrismaCreate(essay: Essay): Prisma.EssayCreateInput {
+    return this.buildPrismaData(essay) as Prisma.EssayCreateInput;
+  }
+
+  private mapEssayToPrismaUpdate(
+    data: Partial<Essay>
+  ): Prisma.EssayUpdateInput {
+    // 过滤掉不应该更新的字段
+    const excludeFields = ["id", "createdAt", "updatedAt", "deletedAt"];
+    const filteredData = Object.fromEntries(
+      Object.entries(data).filter(([key]) => !excludeFields.includes(key))
+    ) as Partial<Essay>;
+
+    return this.buildPrismaData(filteredData);
+  }
+
+  private buildPrismaData(data: Partial<Essay>): Record<string, any> {
+    const result: Record<string, any> = {};
+
+    Object.entries(data).forEach(([key, value]) => {
+      if (value !== undefined) {
+        if (key === "sentences") {
+          // 特殊处理 sentences 字段
+          result.sentences =
+            value && (value as string[]).length > 0
+              ? (value as Prisma.InputJsonValue)
+              : undefined;
+        } else if (key !== "id") {
+          // 其他字段直接赋值（排除 id）
+          result[key] = value;
+        }
+      }
+    });
+
+    return result;
   }
 
   private parseSentences(sentences: Prisma.JsonValue): string[] | undefined {
