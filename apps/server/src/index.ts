@@ -1,12 +1,14 @@
 import express from "express";
-import helloRouter from "./routes/hello";
+import { register as routerRegister } from "./routes";
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || "3000";
 
 app.use(express.json());
-app.use("/hello", helloRouter);
 
-app.listen(port, () => {
+// 添加路由
+routerRegister(app);
+
+app.listen(parseInt(port), "::", () => {
   console.log(`🚀 Server is running at http://localhost:${port}`);
 });

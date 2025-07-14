@@ -34,3 +34,19 @@ model Word {
   @@index([deleted])
   @@map("words")
 }
+
+model Essay {
+  id        Int    @id @default(autoincrement())
+  content   String @db.Text
+  essayType String @default("") @db.VarChar(30)
+  file      String @default("") @db.VarChar(255)
+  fileId    String @default("") @db.VarChar(255)
+  sentences Json?
+  taskId    String @default("") @db.VarChar(255)
+  telegraph String @default("") @db.VarChar(255)
+  thumb     String @default("") @db.VarChar(255)
+  title     String @default("") @db.VarChar(36)
+  videoLink String @default("") @db.VarChar(255)
+
+  @@map("essay")
+}
