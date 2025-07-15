@@ -20,8 +20,13 @@ export class Service implements EssayService {
     const savedEssay = await this.essayRepository.create(newEssay);
 
     // 异步转换文本到语音
-    
+    this.transTextToSpeech(savedEssay);
 
     return trans2EssayInfoResp(savedEssay);
+  }
+
+
+  private async transTextToSpeech(essay: Essay): Promise<void> {
+    
   }
 }
