@@ -35,11 +35,11 @@ export class Service implements EssayService {
     const picture = await search(essay.title);
     if (!picture) return;
 
-    const thumbBuffer = await this.downloadFile(picture.small);
+    const thumbBuffer = await this.downloadFile(picture.urls.small);
 
     const uploadResult = await upload(
       thumbBuffer,
-      this.generateKeyFromUrl(picture.small, "thumb")
+      this.generateKeyFromUrl(picture.urls.small, "thumb", picture.format)
     );
 
     await this.essayRepository.update(essay.id, {
@@ -88,12 +88,17 @@ export class Service implements EssayService {
     return Buffer.from(await response.arrayBuffer());
   }
 
-  private generateKeyFromUrl(url: string, kind: string = "audio"): string {
+  private generateKeyFromUrl(
+    url: string,
+    kind: string = "audio",
+    format: string = ""
+  ): string {
     const urlObj = new URL(url);
     const baseName = urlObj.pathname.split("/").pop() || "";
+    urlObj.searchParams;
     // today
     const today =
       new Date().toISOString().split("T")[0]?.replace(/-/g, "") || "";
-    return `${kind}/${today}/${baseName}`;
+    return `${kind}/${today}/${baseName}${format ? `.${format}` : ""}`;
   }
 }

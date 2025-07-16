@@ -5,11 +5,14 @@ const api = createApi({
 });
 
 type SearchResponse = {
-  full: string;
-  raw: string;
-  regular: string;
-  small: string;
-  thumb: string;
+  urls: {
+    full: string;
+    raw: string;
+    regular: string;
+    small: string;
+    thumb: string;
+  };
+  format: string;
 };
 
 export const search = async (
@@ -25,5 +28,13 @@ export const search = async (
   const photo = resp?.response?.results[0];
   if (!photo) return;
 
-  return photo.urls as SearchResponse;
+  const fullUrl = photo.urls.full;
+
+  const urlObj = new URL(fullUrl);
+  const format = urlObj.searchParams.get("fm");
+
+  return {
+    urls: photo.urls,
+    format: format || "",
+  };
 };
