@@ -1,10 +1,11 @@
+import { getTTS, TTSProvider, withModel, withVoice } from "@/pkg/tts";
 import {
   Essay,
   EssayCreateReq,
   EssayInfoResp,
   initEssay,
   trans2EssayInfoResp,
-} from "../domain/essay";
+} from "@/domain/essay";
 import { EssayService } from "../infrastructure/rest/api/essay";
 
 export interface EssayRepository {
@@ -25,8 +26,22 @@ export class Service implements EssayService {
     return trans2EssayInfoResp(savedEssay);
   }
 
-
   private async transTextToSpeech(essay: Essay): Promise<void> {
-    
+    const tts = getTTS(TTSProvider.QWEN);
+
+    const resp = await tts.transTextToSpeech(
+      essay.content,
+      withModel("qwen-tts"),
+      withVoice("Chelsie")
+    );
+
+    if (resp.error) {
+      // 处理错误
+      console.error("TTS error:", resp.error);
+      return;
+    }
+
+    // 处理成功的情况
+    console.log("TTS audio URL:", resp.audioUrl);
   }
 }

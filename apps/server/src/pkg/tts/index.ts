@@ -23,8 +23,16 @@ export const withVoice =
     config.voice = voice;
   };
 
+export type TTSResponse = {
+  error: string | null;
+  audioUrl: string | null;
+};
+
 export interface TTS {
-  transTextToSpeech(text: string, ...options: TTSOption[]): Promise<void>;
+  transTextToSpeech(
+    text: string,
+    ...options: TTSOption[]
+  ): Promise<TTSResponse>;
 }
 
 export const getTTS = (provider: TTSProvider): TTS => {

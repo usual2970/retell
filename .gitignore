@@ -39,3 +39,6 @@ yarn-error.log*
 
 # data
 pb_data
+
+# log
+logs
