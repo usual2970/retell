@@ -7,9 +7,11 @@ import {
   trans2EssayInfoResp,
 } from "@/domain/essay";
 import { EssayService } from "../infrastructure/rest/api/essay";
+import { upload } from "@/pkg/upload";
 
 export interface EssayRepository {
   create(essay: Essay): Promise<Essay>;
+  update(id: number, data: Partial<Essay>): Promise<Essay | null>;
 }
 
 export class Service implements EssayService {
@@ -41,7 +43,38 @@ export class Service implements EssayService {
       return;
     }
 
-    // 处理成功的情况
-    console.log("TTS audio URL:", resp.audioUrl);
+    // TTS 返回的是 audioUrl，下载并上传到 S3，然后保存到数据库
+    if (resp.audioUrl) {
+      console.log("TTS audio URL:", resp.audioUrl);
+      const audioBuffer = await this.downloadFile(resp.audioUrl);
+      const uploadResult = await upload(
+        audioBuffer,
+        this.generateKeyFromUrl(resp.audioUrl)
+      );
+
+      console.log("S3 upload result:", uploadResult);
+
+      // 保存到数据库
+      await this.essayRepository.update(essay.id, {
+        file: uploadResult.url, // 假设 uploadResult 包含上传后的 URL
+      });
+    }
+  }
+
+  private async downloadFile(url: string): Promise<Buffer> {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Failed to download file from ${url}`);
+    }
+    return Buffer.from(await response.arrayBuffer());
+  }
+
+  private generateKeyFromUrl(url: string): string {
+    const urlObj = new URL(url);
+    const baseName = urlObj.pathname.split("/").pop() || "";
+    // today
+    const today =
+      new Date().toISOString().split("T")[0]?.replace(/-/g, "") || "";
+    return `audio/${today}/${baseName}`;
   }
 }
