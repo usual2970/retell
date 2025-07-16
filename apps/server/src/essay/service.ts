@@ -8,6 +8,7 @@ import {
 } from "@/domain/essay";
 import { EssayService } from "../infrastructure/rest/api/essay";
 import { upload } from "@/pkg/upload";
+import { search } from "@/pkg/picture";
 
 export interface EssayRepository {
   create(essay: Essay): Promise<Essay>;
@@ -25,7 +26,25 @@ export class Service implements EssayService {
     // 异步转换文本到语音
     this.transTextToSpeech(savedEssay);
 
+    this.autoSetThumb(savedEssay);
+
     return trans2EssayInfoResp(savedEssay);
+  }
+
+  private async autoSetThumb(essay: Essay): Promise<void> {
+    const picture = await search(essay.title);
+    if (!picture) return;
+
+    const thumbBuffer = await this.downloadFile(picture.small);
+
+    const uploadResult = await upload(
+      thumbBuffer,
+      this.generateKeyFromUrl(picture.small, "thumb")
+    );
+
+    await this.essayRepository.update(essay.id, {
+      thumb: uploadResult.url,
+    });
   }
 
   private async transTextToSpeech(essay: Essay): Promise<void> {
@@ -69,12 +88,12 @@ export class Service implements EssayService {
     return Buffer.from(await response.arrayBuffer());
   }
 
-  private generateKeyFromUrl(url: string): string {
+  private generateKeyFromUrl(url: string, kind: string = "audio"): string {
     const urlObj = new URL(url);
     const baseName = urlObj.pathname.split("/").pop() || "";
     // today
     const today =
       new Date().toISOString().split("T")[0]?.replace(/-/g, "") || "";
-    return `audio/${today}/${baseName}`;
+    return `${kind}/${today}/${baseName}`;
   }
 }

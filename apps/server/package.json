@@ -7,7 +7,7 @@
     "dev": "ts-node-dev --respawn --transpile-only --require tsconfig-paths/register src/index.ts",
     "build": "rm -rf dist && prisma generate && tsc && tsc-alias",
     "start": "node dist/index.js",
-    "test": "echo 'Add test script here'",
+    "test": "jest",
     "lint": "echo 'Add lint script here'"
   },
   "dependencies": {
@@ -16,6 +16,7 @@
     "axios": "^1.6.7",
     "express": "^5.1.0",
     "morgan": "^1.10.0",
+    "unsplash-js": "^7.0.19",
     "winston": "^3.11.0",
     "winston-daily-rotate-file": "^4.7.1",
     "zod": "^3.23.8"
@@ -23,9 +24,13 @@
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
     "@types/express": "^5.0.3",
+    "@types/jest": "^30.0.0",
     "@types/morgan": "^1.9.9",
     "@types/node": "^24.0.13",
+    "dotenv": "^17.2.0",
+    "jest": "^30.0.4",
     "prisma": "6.11.1",
+    "ts-jest": "^29.4.0",
     "ts-node-dev": "^2.0.0",
     "tsc-alias": "^1.8.10",
     "tsconfig-paths": "^4.2.0",
