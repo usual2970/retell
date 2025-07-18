@@ -9,10 +9,24 @@ import {
 import { EssayService } from "../infrastructure/rest/api/essay";
 import { upload } from "@/pkg/upload";
 import { search } from "@/pkg/picture";
+import {
+  BaseListReq,
+  BaseListResp,
+  getFilter,
+  getPage,
+  getPageSize,
+} from "@/domain/base";
+import { map } from "zod/v4-mini";
 
 export interface EssayRepository {
   create(essay: Essay): Promise<Essay>;
   update(id: number, data: Partial<Essay>): Promise<Essay | null>;
+  findAll(params?: {
+    skip?: number;
+    take?: number;
+    where?: Map<string, any>;
+    orderBy?: Array<{ [key: string]: "asc" | "desc" }>;
+  }): Promise<Essay[]>;
 }
 
 export class Service implements EssayService {
@@ -29,6 +43,27 @@ export class Service implements EssayService {
     this.autoSetThumb(savedEssay);
 
     return trans2EssayInfoResp(savedEssay);
+  }
+
+  async list(req: BaseListReq): Promise<BaseListResp<EssayInfoResp>> {
+    const where: Map<string, any> = new Map();
+
+    if (getFilter(req, "kwd")) {
+      where.set("title like", `%${getFilter(req, "kwd")}%`);
+    }
+
+    const essays = await this.essayRepository.findAll({
+      skip: (getPage(req) - 1) * getPageSize(req),
+      take: getPageSize(req),
+      orderBy: [{ createdAt: "desc" }],
+      where,
+    });
+    return {
+      total: essays.length,
+      page: req.page || 1,
+      pageSize: req.pageSize || 10,
+      items: essays.map(trans2EssayInfoResp),
+    };
   }
 
   private async autoSetThumb(essay: Essay): Promise<void> {

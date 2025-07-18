@@ -1,3 +1,4 @@
+import z from "zod";
 import { ModelBase } from "./base";
 
 export type Essay = {
@@ -14,10 +15,12 @@ export type Essay = {
   videoLink: string;
 } & ModelBase;
 
-export type EssayCreateReq = {
-  title: string;
-  content: string;
-};
+export const essayCreateSchema = z.object({
+  title: z.string().min(1, "Title is required"),
+  content: z.string().min(1, "Content is required"),
+});
+
+export type EssayCreateReq = z.infer<typeof essayCreateSchema>;
 
 export type EssayInfoResp = {
   id: number;

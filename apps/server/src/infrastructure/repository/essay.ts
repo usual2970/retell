@@ -1,6 +1,6 @@
 import { Essay } from "../../domain/essay";
 import { EssayRepository } from "../../essay/service";
-import { getPrismaClient } from "./base";
+import { arrayToOrderBy, getPrismaClient, mapToWhereCondition } from "./base";
 import { Prisma } from "@prisma/client";
 import type { Essay as PrismaEssay } from "@prisma/client";
 
@@ -31,15 +31,18 @@ export class Repository implements EssayRepository {
   async findAll(params?: {
     skip?: number;
     take?: number;
-    where?: Prisma.EssayWhereInput;
+    where?: Map<string, any>;
+    orderBy?: Array<{ [key: string]: "asc" | "desc" }>;
   }): Promise<Essay[]> {
     const prisma = getPrismaClient();
+
+    const where = mapToWhereCondition(params?.where || new Map());
 
     const essays = await prisma.essay.findMany({
       skip: params?.skip,
       take: params?.take,
-      where: params?.where,
-      orderBy: { createdAt: "desc" },
+      where,
+      orderBy: arrayToOrderBy(params?.orderBy || []),
     });
 
     return essays.map((essay) => this.mapPrismaToEssay(essay));
