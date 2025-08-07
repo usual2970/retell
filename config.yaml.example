@@ -1,0 +1,51 @@
+name: paas-backend
+environment: development
+log_path: /Users/liuxuanyao/work/paas-backend/logs
+
+image_build_service:
+  url: https://jenkins.yu3.co/generic-webhook-trigger/invoke
+  token: KY8R5uK191h8wG5n
+
+oss:
+  endpoint: oss-cn-hangzhou.aliyuncs.com
+  access_key_id: LTAI5tBDvCkQWsFHXR2f8yby
+  bucket: ikit-blog
+  domain: ikit-blog.oss-cn-hangzhou.aliyuncs.com
+
+databases:
+  paas:
+    host: "localhost"
+    port: "3308"
+    user: "user"
+    database: "paas"
+    max_idle_conns: 10
+    max_open_conns: 100
+
+redises:
+  paas:
+    host: "localhost"
+    port: "6379"
+    db: 0
+    pool_size: 10
+
+email_auth:
+  host: "smtp.feishu.cn"
+  port: 465
+  username: "noreply@yu3.co"
+  password: "karOfXR5fC02hVPJ"
+
+game_base_domain: 3sdk.yu3.co
+
+auth:
+  jwt_secret: "9jmLKC35mcInK95UuksTMjMstHU="
+
+paas_test_apis:
+  api_get_sstoken: "https://3sdk.yu3.co/api/get_sstoken"
+  api_update_sstoken: "https://3sdk.yu3.co/api/update_sstoken"
+  api_get_userinfo: "https://3sdk.yu3.co/api/get_userinfo"
+  api_get_balance: "https://3sdk.yu3.co/api/get_balance"
+  api_change_balance: "https://3sdk.yu3.co/api/change_balance"
+
+inside_token: "0jmLKC35mcInK95UuksTMjMstHU="
+
+business_demo_domain: "https://biz-demo.3sdk.yu3.co"
